@@ -17,6 +17,10 @@ var jwt = require('jsonwebtoken');
 
 function verifyToken(req, res, next) {
     let errorMessage
+    if(!req.headers.authorization){
+        errorMessage = "Unauthorized reuqest"
+        return res.status(401).send(errorMessage);
+    }
     let token  = req.query.token;
     if (!token) {
         errorMessage = 'Token not provided';

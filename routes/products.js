@@ -3,10 +3,12 @@ var router = express.Router();
 var mysql = require('../db/config');
 var verifyAuth = require('../middelwares/verifyAuth')
 
-router.post('/create', async (req, res) => {
-
+router.post('/create',verifyAuth.verifyToken,async (req, res) => {
+    const {is_admin} = req.user;
+    if(!is_admin){
+        return res.status(401).json({message: "you're unauthorized for this action"} );
+    }
     const connection = await mysql.getConnection();
-
     const sql = `INSERT INTO products (name, cat, img, price, lengte, descr, descr2, descr3) values ('${req.body.name}', '${req.body.category}', '${req.body.img}', '${req.body.price}', '${req.body.lengte}', '${req.body.desc}', '${req.body.desc2}', '${req.body.desc3}')`;
     connection.query(sql, (err, result) => {
         connection.release();

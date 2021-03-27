@@ -47,22 +47,9 @@ router.post('/login', async (req, res) => {
   });
 });
 
-router.get('/username', verifyauth.verifyToken, function (req, res, next) {
-  return res.status(200).json(decodedToken.username);
+router.get('/verify', verifyauth.verifyToken, function (req, res, next) {
+  return res.status(200).json();
 });
 
-// var decodedToken = '';
-// function verifyToken(req, res, next) {
-//   let token = req.query.token;
-//   jwt.verify(token, 'vchebZD&GHcnrepptsesVCRUSSTUEH100g', function (err, tokendata) {
-//     if (err) {
-//       return res.status(400).json({ message: ' Unauthorized request' });
-//     }
-//     if (tokendata) {
-//       decodedToken = tokendata;
-//       next();
-//     }
-//   })
-// }
 
 module.exports = router;
