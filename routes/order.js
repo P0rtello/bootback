@@ -9,20 +9,7 @@ router.post('/create', verifyAuth.verifyToken,async (req, res, next)=>{
     if(!req.body){
         return res.status(400).json({error:"Missing arguments."})
     }
-    // let orders = req.body.orders;
 
-    // let validateOrder = false;
-    // await validateOrders(orders)
-    //     .then(
-    //         succes =>{
-    //             console.log('valid orders.')
-    //         },
-    //         error =>{
-    //             console.log(error);
-    //             res.status(400).json({error})
-    //             validateOrder = error;
-    //         }
-    //     )
 
     const connection = await mysql.getConnection();
     let orderId = generateOrderId();
@@ -33,22 +20,12 @@ router.post('/create', verifyAuth.verifyToken,async (req, res, next)=>{
 
     connection.query(sql, (err, result) => {
         connection.release();
-        console.log("oijkefgffffffffffffffffffffffffff")
         if (err) {
             console.log(err);
             return res.status(501).json({ message: 'Error creating order.' })
         }
     });
 
-    // connection.query(sql2, (err, result) => {
-    //
-    //     if (err) {
-    //         console.log(err);
-    //         return res.status(501).json({ message: 'Error creating order.' })
-    //     }
-    //
-    //     return res.status(200).json( {orderId: orderId });
-    // });
 
 
 });
@@ -59,7 +36,6 @@ async function orderProductsInsertQuery(orderProducts, orderId) {
     orderProducts.forEach(orderItem => {
         query = `INSERT INTO bootback.order_product (order_id, product_id, amount) values ('${orderId}', '${orderItem.product.id}', '${orderItem.amount}');`
         connection2.query(query, (err, result) => {
-            console.log("oihueasfgtfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
             if (err) {
                 console.log(err);
