@@ -18,7 +18,8 @@ router.post('/register', async (req, res) => {
       console.log(err);
       return res.status(501).json({ message: 'Error registering user.' })
     }
-    return res.status(200).json(result);
+    let token = validation.generateUserToken(req.body.email,req.body.username, false);
+    return res.status(200).json(token);
   });
 
 });
@@ -26,7 +27,7 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
 
   const connection = await mysql.getConnection();
-  const sql = `SELECT * FROM USERS WHERE EMAIL='${req.body.email}'`;
+  const sql = `SELECT * FROM USERS WHERE EMAIL='${req.body.email}' LIMIT 1`;
   connection.query(sql, (err, result) => {
     connection.release();
     if (err) {

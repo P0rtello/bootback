@@ -1,8 +1,8 @@
 // Load module
 var mysql = require('mysql');
-var express = require('express');
-let user = process.env.user;
-let password = process.env.pasword;
+require('dotenv').config()
+let user = process.env.USER;
+let password = process.env.PASSWORD;
 
 // Initialize pool
 var pool      =    mysql.createPool({
